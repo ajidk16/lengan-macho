@@ -1,6 +1,7 @@
 "use client";
 
 import { BrandButton } from "@/components/ui/brand-button";
+import { Button } from "@/components/ui/button";
 import { BrandCard } from "@/components/ui/brand-card";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LanguageToggle } from "@/components/ui/language-toggle";
@@ -15,17 +16,45 @@ import {
   Calculator,
   Menu,
   X,
+  Expand,
+  ChevronsRightLeft,
+  ChevronsLeftRight,
+  Shrink,
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 const navigationItems = [
-  { id: "dashboard", icon: Home, color: "text-orange-600 dark:text-orange-400" },
-  { id: "tracker", icon: TrendingUp, color: "text-orange-500 dark:text-orange-300" },
-  { id: "meals", icon: Utensils, color: "text-yellow-600 dark:text-yellow-400" },
-  { id: "workout", icon: Dumbbell, color: "text-orange-700 dark:text-orange-500" },
-  { id: "tips", icon: Lightbulb, color: "text-yellow-500 dark:text-yellow-300" },
-  { id: "calculator", icon: Calculator, color: "text-orange-600 dark:text-orange-400" },
+  {
+    id: "dashboard",
+    icon: Home,
+    color: "text-orange-600 dark:text-orange-400",
+  },
+  {
+    id: "tracker",
+    icon: TrendingUp,
+    color: "text-orange-500 dark:text-orange-300",
+  },
+  {
+    id: "meals",
+    icon: Utensils,
+    color: "text-yellow-600 dark:text-yellow-400",
+  },
+  {
+    id: "workout",
+    icon: Dumbbell,
+    color: "text-orange-700 dark:text-orange-500",
+  },
+  {
+    id: "tips",
+    icon: Lightbulb,
+    color: "text-yellow-500 dark:text-yellow-300",
+  },
+  {
+    id: "calculator",
+    icon: Calculator,
+    color: "text-orange-600 dark:text-orange-400",
+  },
 ] as const;
 
 const navLabels: Record<string, string> = {
@@ -65,10 +94,14 @@ function NavButtons({
             onClick={() => onClick?.(id)}
             className={cn(
               "w-full justify-start gap-3 h-12 items-center px-4 transition-all duration-200 group bg-orange-50 text-orange-500 dark:bg-gray-800 dark:text-orange-400 hover:bg-orange-100 dark:hover:bg-gray-700",
-              isActive && "bg-orange-600 text-white shadow-lg shadow-orange-500/25"
+              isActive &&
+                "bg-orange-600 text-white shadow-lg shadow-orange-500/25"
             )}
           >
-            <Icon size={16} className={cn("w-5 h-5", isActive ? "text-white" : color)} />
+            <Icon
+              size={16}
+              className={cn("w-5 h-5", isActive ? "text-white" : color)}
+            />
             {showLabel && (
               <span
                 className={cn(
@@ -91,53 +124,67 @@ function NavButtons({
 }
 
 export function Navigation() {
-  const { currentView, setCurrentView, isDarkMode, language } = useFitnessStore();
+  const { currentView, setCurrentView, isDarkMode, language } =
+    useFitnessStore();
   const { t } = useTranslation(language);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
     <>
-      {/* Desktop */}
-      <BrandCard
-        variant="gradient"
-        className="hidden lg:block fixed left-2 top-1/2 -translate-y-1/2 z-50 w-20 hover:w-64 transition-all duration-300 shadow-xl shadow-orange-500/20 group"
-      >
-        <div className="space-y-4">
-          <div className="text-center space-y-3 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto">
-            <div>
-              <h2 className={`text-lg font-bold ${isDarkMode ? "text-orange-400" : "text-orange-800"}`}>
-                💪 <span className="hidden group-hover:block">LenganMacho</span>
-              </h2>
-              <p className={`text-sm hidden group-hover:block ${isDarkMode ? "text-orange-300" : "text-orange-600"}`}>
-                Fitness Tracker
-              </p>
-            </div>
-            <div className="flex flex-col group-hover:flex-row justify-center gap-2">
-              <ThemeToggle />
-              <LanguageToggle className="group-hover:block" />
-            </div>
-          </div>
-          <nav className="space-y-1">
-            <NavButtons
-              showLabel
-              onClick={id => setCurrentView(id as any)}
-              currentView={currentView}
-              isDarkMode={isDarkMode}
-              t={t}
-            />
-          </nav>
-        </div>
-      </BrandCard>
-
       {/* Tablet */}
       <BrandCard
         variant="gradient"
-        className="hidden md:block lg:hidden fixed left-4 top-1/2 -translate-y-1/2 z-50 shadow-xl shadow-orange-500/20"
+        className={cn(
+          "hidden md:block fixed left-2 top-1/2 -translate-y-1/2 z-50 w-20 transition-all duration-300 shadow-xl shadow-orange-500/20 group",
+          isMobileMenuOpen && "w-64"
+        )}
       >
         <div className="space-y-3">
           <div className="flex flex-col gap-2">
-            <ThemeToggle />
-            <LanguageToggle />
+            <Button
+              variant="ghost"
+              size="lg"
+              className="p-2"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? (
+                <Shrink size={24} className="text-orange-500" />
+              ) : (
+                <Expand size={24} className="text-orange-500" />
+              )}
+            </Button>
+
+            <div
+              className={cn(
+                "flex items-center justify-center gap-2 text-center transition-all duration-300",
+                isMobileMenuOpen ? "block" : "hidden"
+              )}
+            >
+              <h2
+                className={cn(
+                  "text-lg font-bold text-center",
+                  isDarkMode ? "text-orange-400" : "text-orange-800"
+                )}
+              >
+                💪 <span className="block">LenganMacho</span>
+              </h2>
+              <p
+                className={`text-sm ${
+                  isDarkMode ? "text-orange-300" : "text-orange-600"
+                }`}
+              >
+                Fitness Tracker
+              </p>
+            </div>
+            <div
+              className={cn(
+                "flex items-center justify-center gap-2 transition-all duration-300",
+                !isMobileMenuOpen ? "flex-col" : "flex-row"
+              )}
+            >
+              <ThemeToggle />
+              <LanguageToggle />
+            </div>
           </div>
           <div className="w-full h-px bg-gradient-to-r from-transparent via-orange-300 to-transparent" />
           <nav className="flex flex-col gap-2">
@@ -149,9 +196,29 @@ export function Navigation() {
                   variant={isActive ? "primary" : "ghost"}
                   size="sm"
                   onClick={() => setCurrentView(id as any)}
-                  className="w-12 h-12 p-0"
+                  className={cn(
+                    "w-full justify-start gap-3 h-12 items-center px-4 transition-all duration-200 group bg-orange-50 text-orange-500 dark:bg-gray-800 dark:text-orange-400 hover:bg-orange-100 dark:hover:bg-gray-700",
+                    isActive &&
+                      "bg-orange-600 text-white shadow-lg shadow-orange-500/25"
+                  )}
                 >
-                  <Icon className={`w-5 h-5 ${isActive ? "text-white" : color}`} />
+                  <Icon
+                    className={`w-5 h-5 ${isActive ? "text-white" : color}`}
+                  />
+                  {isMobileMenuOpen && (
+                    <span
+                      className={cn(
+                        "transition-all duration-200 opacity-100 ml-2 ",
+                        isActive
+                          ? "text-white font-medium"
+                          : isDarkMode
+                          ? "text-gray-300"
+                          : "text-gray-700"
+                      )}
+                    >
+                      {getNavigationLabel(id, t)}
+                    </span>
+                  )}
                 </BrandButton>
               );
             })}
@@ -160,17 +227,24 @@ export function Navigation() {
       </BrandCard>
 
       {/* Mobile */}
-      <div className="md:hidden">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 shadow-lg">
         <BrandButton
           variant="primary"
           size="sm"
           className="fixed top-4 left-4 z-50 w-12 h-12 p-0 shadow-lg"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          {isMobileMenuOpen ? (
+            <X className="w-5 h-5" />
+          ) : (
+            <Menu className="w-5 h-5" />
+          )}
         </BrandButton>
         {isMobileMenuOpen && (
-          <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setIsMobileMenuOpen(false)} />
+          <div
+            className="fixed inset-0 bg-black/50 z-40"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
         )}
         <BrandCard
           variant="gradient"
@@ -181,10 +255,18 @@ export function Navigation() {
           <div className="space-y-4">
             <div className="text-center space-y-3">
               <div>
-                <h2 className={`text-lg font-bold ${isDarkMode ? "text-orange-400" : "text-orange-800"}`}>
+                <h2
+                  className={`text-lg font-bold ${
+                    isDarkMode ? "text-orange-400" : "text-orange-800"
+                  }`}
+                >
                   💪 LenganMacho
                 </h2>
-                <p className={`text-sm ${isDarkMode ? "text-orange-300" : "text-orange-600"}`}>
+                <p
+                  className={`text-sm ${
+                    isDarkMode ? "text-orange-300" : "text-orange-600"
+                  }`}
+                >
                   Fitness Tracker
                 </p>
               </div>
@@ -204,9 +286,16 @@ export function Navigation() {
                       setCurrentView(id as any);
                       setIsMobileMenuOpen(false);
                     }}
-                    className="w-full justify-start gap-3 h-12"
+                    // className="w-full justify-start gap-3 h-12"
+                    className={cn(
+                      "w-full justify-start gap-3 h-12 items-center px-4 transition-all duration-200 group bg-orange-50 text-orange-500 dark:bg-gray-800 dark:text-orange-400 hover:bg-orange-100 dark:hover:bg-gray-700",
+                      isActive &&
+                        "bg-orange-600 text-white shadow-lg shadow-orange-500/25"
+                    )}
                   >
-                    <Icon className={`w-5 h-5 ${isActive ? "text-white" : color}`} />
+                    <Icon
+                      className={`w-5 h-5 ${isActive ? "text-white" : color}`}
+                    />
                     <span
                       className={
                         isActive
