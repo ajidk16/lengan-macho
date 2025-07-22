@@ -20,170 +20,138 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 const navigationItems = [
-  {
-    id: "dashboard",
-    icon: Home,
-    color: "text-orange-600 dark:text-orange-400",
-  },
-  {
-    id: "tracker",
-    icon: TrendingUp,
-    color: "text-orange-500 dark:text-orange-300",
-  },
-  {
-    id: "meals",
-    icon: Utensils,
-    color: "text-yellow-600 dark:text-yellow-400",
-  },
-  {
-    id: "workout",
-    icon: Dumbbell,
-    color: "text-orange-700 dark:text-orange-500",
-  },
-  {
-    id: "tips",
-    icon: Lightbulb,
-    color: "text-yellow-500 dark:text-yellow-300",
-  },
-  {
-    id: "calculator",
-    icon: Calculator,
-    color: "text-orange-600 dark:text-orange-400",
-  },
+  { id: "dashboard", icon: Home, color: "text-orange-600 dark:text-orange-400" },
+  { id: "tracker", icon: TrendingUp, color: "text-orange-500 dark:text-orange-300" },
+  { id: "meals", icon: Utensils, color: "text-yellow-600 dark:text-yellow-400" },
+  { id: "workout", icon: Dumbbell, color: "text-orange-700 dark:text-orange-500" },
+  { id: "tips", icon: Lightbulb, color: "text-yellow-500 dark:text-yellow-300" },
+  { id: "calculator", icon: Calculator, color: "text-orange-600 dark:text-orange-400" },
 ] as const;
 
+const navLabels: Record<string, string> = {
+  dashboard: "dashboard",
+  tracker: "progress",
+  meals: "mealPlan",
+  workout: "workout",
+  tips: "tipsNotes",
+  calculator: "calculator",
+};
+
+function getNavigationLabel(id: string, t: (key: string) => string) {
+  return t(navLabels[id] ?? id);
+}
+
+function NavButtons({
+  showLabel,
+  onClick,
+  currentView,
+  isDarkMode,
+  t,
+}: {
+  showLabel?: boolean;
+  onClick?: (id: string) => void;
+  currentView: string;
+  isDarkMode: boolean;
+  t: (key: string) => string;
+}) {
+  return (
+    <>
+      {navigationItems.map(({ id, icon: Icon, color }) => {
+        const isActive = currentView === id;
+        return (
+          <BrandButton
+            key={id}
+            variant={isActive ? "primary" : "ghost"}
+            onClick={() => onClick?.(id)}
+            className={cn(
+              "w-full justify-start gap-3 h-12 items-center px-4 transition-all duration-200 group bg-orange-50 text-orange-500 dark:bg-gray-800 dark:text-orange-400 hover:bg-orange-100 dark:hover:bg-gray-700",
+              isActive && "bg-orange-600 text-white shadow-lg shadow-orange-500/25"
+            )}
+          >
+            <Icon size={16} className={cn("w-5 h-5", isActive ? "text-white" : color)} />
+            {showLabel && (
+              <span
+                className={cn(
+                  "transition-all duration-200 opacity-0 group-hover:opacity-100 ml-0 group-hover:ml-2",
+                  isActive
+                    ? "text-white font-medium"
+                    : isDarkMode
+                    ? "text-gray-300"
+                    : "text-gray-700"
+                )}
+              >
+                {getNavigationLabel(id, t)}
+              </span>
+            )}
+          </BrandButton>
+        );
+      })}
+    </>
+  );
+}
+
 export function Navigation() {
-  const { currentView, setCurrentView, isDarkMode, language } =
-    useFitnessStore();
+  const { currentView, setCurrentView, isDarkMode, language } = useFitnessStore();
   const { t } = useTranslation(language);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const getNavigationLabel = (id: string) => {
-    switch (id) {
-      case "dashboard":
-        return t("dashboard");
-      case "tracker":
-        return t("progress");
-      case "meals":
-        return t("mealPlan");
-      case "workout":
-        return t("workout");
-      case "tips":
-        return t("tipsNotes");
-      case "calculator":
-        return t("calculator");
-      default:
-        return id;
-    }
-  };
-
   return (
     <>
-      {/* Desktop Navigation */}
+      {/* Desktop */}
       <BrandCard
         variant="gradient"
         className="hidden lg:block fixed left-2 top-1/2 -translate-y-1/2 z-50 w-20 hover:w-64 transition-all duration-300 shadow-xl shadow-orange-500/20 group"
       >
         <div className="space-y-4">
-          {/* Header with controls */}
           <div className="text-center space-y-3 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto">
             <div>
-              <h2
-                className={`text-lg font-bold ${
-                  isDarkMode ? "text-orange-400" : "text-orange-800"
-                }`}
-              >
+              <h2 className={`text-lg font-bold ${isDarkMode ? "text-orange-400" : "text-orange-800"}`}>
                 💪 <span className="hidden group-hover:block">LenganMacho</span>
               </h2>
-              <p
-                className={`text-sm hidden group-hover:block ${
-                  isDarkMode ? "text-orange-300" : "text-orange-600"
-                }`}
-              >
+              <p className={`text-sm hidden group-hover:block ${isDarkMode ? "text-orange-300" : "text-orange-600"}`}>
                 Fitness Tracker
               </p>
             </div>
-
-            {/* Theme and Language controls */}
-            <div
-              className="flex flex-col group-hover:flex-row justify-center gap-2"
-              onMouseEnter={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
+            <div className="flex flex-col group-hover:flex-row justify-center gap-2">
               <ThemeToggle />
               <LanguageToggle className="group-hover:block" />
             </div>
           </div>
-
           <nav className="space-y-1">
-            {navigationItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = currentView === item.id;
-              return (
-                <BrandButton
-                  key={item.id}
-                  variant={isActive ? "primary" : "ghost"}
-                  onClick={() => setCurrentView(item.id as any)}
-                  className={cn(
-                    "w-full justify-start gap-3 h-12  items-center px-4 transition-all duration-200 group bg-orange-50 text-orange-500 dark:bg-gray-800 dark:text-orange-400 hover:bg-orange-100 dark:hover:bg-gray-700",
-                    isActive && "bg-orange-600 text-white shadow-lg shadow-orange-500/25"
-                  )}
-                >
-                  <Icon
-                    size={16}
-                    className={cn(
-                      "w-5 h-5",
-                      isActive ? "text-white" : item.color
-                    )}
-                  />
-                  <span
-                    className={`transition-all duration-200 ${
-                      isActive
-                        ? "text-white font-medium"
-                        : isDarkMode
-                        ? "text-gray-300"
-                        : "text-gray-700"
-                    } opacity-0 group-hover:opacity-100 ml-0 group-hover:ml-2`}
-                  >
-                    {getNavigationLabel(item.id)}
-                  </span>
-                </BrandButton>
-              );
-            })}
+            <NavButtons
+              showLabel
+              onClick={id => setCurrentView(id as any)}
+              currentView={currentView}
+              isDarkMode={isDarkMode}
+              t={t}
+            />
           </nav>
         </div>
       </BrandCard>
 
-      {/* Tablet Navigation */}
+      {/* Tablet */}
       <BrandCard
         variant="gradient"
         className="hidden md:block lg:hidden fixed left-4 top-1/2 -translate-y-1/2 z-50 shadow-xl shadow-orange-500/20"
       >
         <div className="space-y-3">
-          {/* Controls */}
           <div className="flex flex-col gap-2">
             <ThemeToggle />
             <LanguageToggle />
           </div>
-
           <div className="w-full h-px bg-gradient-to-r from-transparent via-orange-300 to-transparent" />
-
           <nav className="flex flex-col gap-2">
-            {navigationItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = currentView === item.id;
+            {navigationItems.map(({ id, icon: Icon, color }) => {
+              const isActive = currentView === id;
               return (
                 <BrandButton
-                  key={item.id}
+                  key={id}
                   variant={isActive ? "primary" : "ghost"}
                   size="sm"
-                  onClick={() => setCurrentView(item.id as any)}
+                  onClick={() => setCurrentView(id as any)}
                   className="w-12 h-12 p-0"
                 >
-                  <Icon
-                    className={`w-5 h-5 ${
-                      isActive ? "text-white" : item.color
-                    }`}
-                  />
+                  <Icon className={`w-5 h-5 ${isActive ? "text-white" : color}`} />
                 </BrandButton>
               );
             })}
@@ -191,31 +159,19 @@ export function Navigation() {
         </div>
       </BrandCard>
 
-      {/* Mobile Navigation */}
+      {/* Mobile */}
       <div className="md:hidden">
-        {/* Mobile Menu Button */}
         <BrandButton
           variant="primary"
           size="sm"
           className="fixed top-4 left-4 z-50 w-12 h-12 p-0 shadow-lg"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          {isMobileMenuOpen ? (
-            <X className="w-5 h-5" />
-          ) : (
-            <Menu className="w-5 h-5" />
-          )}
+          {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </BrandButton>
-
-        {/* Mobile Menu Overlay */}
         {isMobileMenuOpen && (
-          <div
-            className="fixed inset-0 bg-black/50 z-40"
-            onClick={() => setIsMobileMenuOpen(false)}
-          />
+          <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setIsMobileMenuOpen(false)} />
         )}
-
-        {/* Mobile Menu */}
         <BrandCard
           variant="gradient"
           className={`fixed left-4 top-20 z-50 w-64 shadow-xl shadow-orange-500/20 transition-transform duration-300 ${
@@ -223,51 +179,34 @@ export function Navigation() {
           }`}
         >
           <div className="space-y-4">
-            {/* Header with controls */}
             <div className="text-center space-y-3">
               <div>
-                <h2
-                  className={`text-lg font-bold ${
-                    isDarkMode ? "text-orange-400" : "text-orange-800"
-                  }`}
-                >
+                <h2 className={`text-lg font-bold ${isDarkMode ? "text-orange-400" : "text-orange-800"}`}>
                   💪 LenganMacho
                 </h2>
-                <p
-                  className={`text-sm ${
-                    isDarkMode ? "text-orange-300" : "text-orange-600"
-                  }`}
-                >
+                <p className={`text-sm ${isDarkMode ? "text-orange-300" : "text-orange-600"}`}>
                   Fitness Tracker
                 </p>
               </div>
-
-              {/* Theme and Language controls */}
               <div className="flex justify-center gap-2">
                 <ThemeToggle />
                 <LanguageToggle />
               </div>
             </div>
-
             <nav className="space-y-1">
-              {navigationItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = currentView === item.id;
+              {navigationItems.map(({ id, icon: Icon, color }) => {
+                const isActive = currentView === id;
                 return (
                   <BrandButton
-                    key={item.id}
+                    key={id}
                     variant={isActive ? "primary" : "ghost"}
                     onClick={() => {
-                      setCurrentView(item.id as any);
+                      setCurrentView(id as any);
                       setIsMobileMenuOpen(false);
                     }}
                     className="w-full justify-start gap-3 h-12"
                   >
-                    <Icon
-                      className={`w-5 h-5 ${
-                        isActive ? "text-white" : item.color
-                      }`}
-                    />
+                    <Icon className={`w-5 h-5 ${isActive ? "text-white" : color}`} />
                     <span
                       className={
                         isActive
@@ -277,7 +216,7 @@ export function Navigation() {
                           : "text-gray-700"
                       }
                     >
-                      {getNavigationLabel(item.id)}
+                      {getNavigationLabel(id, t)}
                     </span>
                   </BrandButton>
                 );

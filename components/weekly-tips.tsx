@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { BrandCard } from "@/components/ui/brand-card"
-import { BrandButton } from "@/components/ui/brand-button"
-import { PageHeader } from "@/components/layout/page-header"
-import { Textarea } from "@/components/ui/textarea"
-import { Badge } from "@/components/ui/badge"
-import { useFitnessStore } from "@/lib/store"
-import { Lightbulb, Edit, Save, X, Calendar, BookOpen } from "lucide-react"
+import { useState } from "react";
+import { BrandCard } from "@/components/ui/brand-card";
+import { BrandButton } from "@/components/ui/brand-button";
+import { PageHeader } from "@/components/layout/page-header";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { useFitnessStore } from "@/lib/store";
+import { Lightbulb, Edit, Save, X, Calendar, BookOpen } from "lucide-react";
 
 const weeklyTips = [
   {
@@ -30,16 +30,23 @@ const weeklyTips = [
     tip: "Lakukan progressive overload dengan menambah beban, reps, atau sets setiap minggu untuk terus berkembang.",
     category: "Progression",
   },
-]
+];
 
 export function WeeklyTips() {
-  const { selectedWeek, setSelectedWeek, notes, addNote, updateNote, deleteNote } = useFitnessStore()
-  const [newNote, setNewNote] = useState("")
-  const [editingNote, setEditingNote] = useState<string | null>(null)
-  const [editContent, setEditContent] = useState("")
+  const {
+    selectedWeek,
+    setSelectedWeek,
+    notes,
+    addNote,
+    updateNote,
+    deleteNote,
+  } = useFitnessStore();
+  const [newNote, setNewNote] = useState("");
+  const [editingNote, setEditingNote] = useState<string | null>(null);
+  const [editContent, setEditContent] = useState("");
 
-  const currentTip = weeklyTips.find((tip) => tip.week === selectedWeek)
-  const currentWeekNotes = notes.filter((note) => note.week === selectedWeek)
+  const currentTip = weeklyTips.find((tip) => tip.week === selectedWeek);
+  const currentWeekNotes = notes.filter((note) => note.week === selectedWeek);
 
   const handleAddNote = () => {
     if (newNote.trim()) {
@@ -47,35 +54,39 @@ export function WeeklyTips() {
         date: new Date().toISOString().split("T")[0],
         content: newNote.trim(),
         week: selectedWeek,
-      })
-      setNewNote("")
+      });
+      setNewNote("");
     }
-  }
+  };
 
   const startEdit = (noteId: string, content: string) => {
-    setEditingNote(noteId)
-    setEditContent(content)
-  }
+    setEditingNote(noteId);
+    setEditContent(content);
+  };
 
   const saveEdit = () => {
     if (editingNote) {
-      updateNote(editingNote, editContent)
-      setEditingNote(null)
-      setEditContent("")
+      updateNote(editingNote, editContent);
+      setEditingNote(null);
+      setEditContent("");
     }
-  }
+  };
 
   const cancelEdit = () => {
-    setEditingNote(null)
-    setEditContent("")
-  }
+    setEditingNote(null);
+    setEditContent("");
+  };
 
   return (
     <div className="space-y-8">
-      <PageHeader title="Tips & Catatan" subtitle="Panduan mingguan dan catatan pribadi perjalanan fitness" icon="🧠" />
+      <PageHeader
+        title="Tips & Catatan"
+        subtitle="Panduan mingguan dan catatan pribadi perjalanan fitness"
+        icon="🧠"
+      />
 
       {/* Week Selector */}
-      <BrandCard variant="gradient">
+      <BrandCard variant="gradient" className="p-4">
         <div className="flex flex-wrap justify-center gap-2">
           {[1, 2, 3, 4, 5, 6, 7, 8].map((week) => (
             <BrandButton
@@ -83,7 +94,9 @@ export function WeeklyTips() {
               variant={selectedWeek === week ? "primary" : "outline"}
               size="sm"
               onClick={() => setSelectedWeek(week)}
-              className="min-w-[70px] font-medium bg-transparent hover:bg-transparent text-sm transition-colors duration-200"
+              className={`min-w-[70px] font-medium transition-all bg-transparent ${
+                selectedWeek === week ? "shadow-md" : ""
+              }`}
             >
               Week {week}
             </BrandButton>
@@ -95,31 +108,42 @@ export function WeeklyTips() {
       {currentTip && (
         <BrandCard
           variant="bordered"
-          className="border-l-4 border-l-yellow-500 bg-gradient-to-r from-yellow-50 to-orange-50"
+          className="border-l-4 border-l-yellow-500 bg-gradient-to-r from-yellow-50 to-orange-50 p-4"
         >
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-yellow-100 rounded-full">
-                <Lightbulb className="w-6 h-6 text-yellow-600" />
-              </div>
-              <div>
-                <h3 className="font-bold text-yellow-800 text-lg">Tips Minggu {currentTip.week}</h3>
-                <Badge className="bg-yellow-200 text-yellow-800 border-yellow-300 mt-1">{currentTip.category}</Badge>
-              </div>
+          <div className="flex items-start gap-4">
+            <div className="p-2 bg-yellow-100 rounded-full flex-shrink-0">
+              <Lightbulb className="w-6 h-6 text-yellow-600" />
             </div>
-            <p className="text-gray-700 leading-relaxed text-lg pl-14">{currentTip.tip}</p>
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-1">
+                <h3 className="font-bold text-yellow-800 text-lg">
+                  Tips Minggu {currentTip.week}
+                </h3>
+                <Badge className="bg-yellow-200 text-yellow-800 border-yellow-300">
+                  {currentTip.category}
+                </Badge>
+              </div>
+              <p className="text-gray-700 leading-relaxed text-base">
+                {currentTip.tip}
+              </p>
+            </div>
           </div>
         </BrandCard>
       )}
 
       {/* Personal Notes Section */}
-      <BrandCard variant="bordered" className="border-l-4 border-l-orange-500">
+      <BrandCard
+        variant="bordered"
+        className="border-l-4 border-l-orange-500 p-4"
+      >
         <div className="space-y-6">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-orange-100 rounded-full">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="p-2 bg-orange-100 rounded-full flex-shrink-0">
               <BookOpen className="w-6 h-6 text-orange-600" />
             </div>
-            <h3 className="font-bold text-orange-800 text-lg">Catatan Pribadi - Week {selectedWeek}</h3>
+            <h3 className="font-bold text-orange-800 text-lg">
+              Catatan Pribadi - Week {selectedWeek}
+            </h3>
           </div>
 
           {/* Add New Note */}
@@ -128,9 +152,14 @@ export function WeeklyTips() {
               placeholder="Tulis catatan atau refleksi untuk minggu ini..."
               value={newNote}
               onChange={(e) => setNewNote(e.target.value)}
-              className="min-h-[100px] border-orange-200 focus:border-orange-500 bg-orange-50"
+              className="min-h-[100px] border-orange-200 focus:border-orange-500 bg-orange-50 dark:bg-gray-800"
             />
-            <BrandButton onClick={handleAddNote} disabled={!newNote.trim()} variant="primary" className="w-full">
+            <BrandButton
+              onClick={handleAddNote}
+              disabled={!newNote.trim()}
+              variant="primary"
+              className="w-full"
+            >
               📝 Tambah Catatan
             </BrandButton>
           </div>
@@ -138,23 +167,28 @@ export function WeeklyTips() {
           {/* Existing Notes */}
           <div className="space-y-4">
             {currentWeekNotes.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">
-                <BookOpen className="w-12 h-12 mx-auto mb-3 text-gray-400" />
+              <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                <BookOpen className="w-12 h-12 mx-auto mb-3 text-gray-400 dark:text-gray-500" />
                 <p>Belum ada catatan untuk minggu ini</p>
-                <p className="text-sm">Mulai tulis refleksi dan pengalaman latihan Anda</p>
+                <p className="text-sm">
+                  Mulai tulis refleksi dan pengalaman latihan Anda
+                </p>
               </div>
             ) : (
               currentWeekNotes.map((note) => (
-                <BrandCard key={note.id} variant="gradient" className="bg-gradient-to-r from-gray-50 to-orange-50">
+                <BrandCard
+                  key={note.id}
+                  variant="gradient"
+                  className="bg-gradient-to-r from-gray-50 to-orange-50 p-4 dark:from-gray-900 dark:to-gray-800 border-2 border-orange-200 dark:border-gray-700"
+                >
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4 text-orange-500" />
-                        <span className="text-sm text-orange-600 font-medium">
+                        <Calendar className="w-4 h-4 text-orange-500 dark:text-orange-400" />
+                        <span className="text-sm text-orange-600 font-medium dark:text-orange-300">
                           {new Date(note.date).toLocaleDateString("id-ID")}
                         </span>
                       </div>
-
                       {editingNote !== note.id && (
                         <div className="flex gap-1">
                           <BrandButton
@@ -169,34 +203,43 @@ export function WeeklyTips() {
                             size="sm"
                             variant="ghost"
                             onClick={() => deleteNote(note.id)}
-                            className="p-2 text-red-500 hover:text-red-700"
+                            className="p-2 text-red-500 hover:text-red-700 dark:hover:text-red-400"
                           >
                             <X className="w-3 h-3" />
                           </BrandButton>
                         </div>
                       )}
                     </div>
-
                     {editingNote === note.id ? (
                       <div className="space-y-3">
                         <Textarea
                           value={editContent}
                           onChange={(e) => setEditContent(e.target.value)}
-                          className="min-h-[80px] border-orange-200 focus:border-orange-500"
+                          className="min-h-[80px] border-orange-200 focus:border-orange-500 dark:bg-gray-800 outline-none transition-colors"
                         />
                         <div className="flex gap-2">
-                          <BrandButton size="sm" onClick={saveEdit} variant="primary">
+                          <BrandButton
+                            size="sm"
+                            onClick={saveEdit}
+                            variant="primary"
+                          >
                             <Save className="w-3 h-3 mr-1" />
                             Simpan
                           </BrandButton>
-                          <BrandButton size="sm" variant="outline" onClick={cancelEdit}>
+                          <BrandButton
+                            size="sm"
+                            variant="outline"
+                            onClick={cancelEdit}
+                          >
                             <X className="w-3 h-3 mr-1" />
                             Batal
                           </BrandButton>
                         </div>
                       </div>
                     ) : (
-                      <p className="text-gray-700 leading-relaxed">{note.content}</p>
+                      <p className="text-gray-700 leading-relaxed dark:text-gray-300">
+                        {note.content}
+                      </p>
                     )}
                   </div>
                 </BrandCard>
@@ -206,5 +249,5 @@ export function WeeklyTips() {
         </div>
       </BrandCard>
     </div>
-  )
+  );
 }
