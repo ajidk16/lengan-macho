@@ -83,7 +83,7 @@ interface FitnessStore {
 }
 
 const initialProgress: ProgressEntry[] = [
-  // { id: "1", date: "2024-01-01", week: 1, weight: 70.5, armSize: 32.0, chestSize: 95.0, waistSize: 80.0 },
+  { id: "1", date: "2024-01-01", week: 1, weight: 70.5, armSize: 32.0, chestSize: 95.0, waistSize: 80.0 },
 ];
 
 const initialWorkouts: Record<string, DailyWorkout> = {
