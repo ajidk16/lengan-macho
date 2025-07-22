@@ -39,7 +39,7 @@ export function MealView() {
               variant={selectedDay === day.key ? "primary" : "outline"}
               size="sm"
               onClick={() => setSelectedDay(day.key)}
-              className="min-w-[60px] font-medium"
+              className="min-w-[60px] font-medium bg-transparent hover:bg-transparent text-sm transition-colors duration-200"
             >
               {day.label}
             </BrandButton>

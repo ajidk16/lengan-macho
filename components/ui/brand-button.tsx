@@ -6,14 +6,14 @@ import type { ReactNode } from "react"
 interface BrandButtonProps {
   children: ReactNode
   variant?: "primary" | "secondary" | "outline" | "ghost"
-  size?: "sm" | "md" | "lg"
+  size?: "sm" | "default" | "lg"
   className?: string
   onClick?: () => void
   disabled?: boolean
   type?: "button" | "submit" | "reset"
 }
 
-export function BrandButton({ children, variant = "primary", size = "md", className, ...props }: BrandButtonProps) {
+export function BrandButton({ children, variant = "primary", size = "default", className, ...props }: BrandButtonProps) {
   const { isDarkMode } = useFitnessStore()
 
   const variants = {

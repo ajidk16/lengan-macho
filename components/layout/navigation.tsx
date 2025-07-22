@@ -86,17 +86,17 @@ export function Navigation() {
       >
         <div className="space-y-4">
           {/* Header with controls */}
-          <div className="text-center space-y-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto">
+          <div className="text-center space-y-3 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto">
             <div>
               <h2
                 className={`text-lg font-bold ${
                   isDarkMode ? "text-orange-400" : "text-orange-800"
                 }`}
               >
-                💪 LenganMacho
+                💪 <span className="hidden group-hover:block">LenganMacho</span>
               </h2>
               <p
-                className={`text-sm ${
+                className={`text-sm hidden group-hover:block ${
                   isDarkMode ? "text-orange-300" : "text-orange-600"
                 }`}
               >
@@ -105,9 +105,12 @@ export function Navigation() {
             </div>
 
             {/* Theme and Language controls */}
-            <div className="flex justify-center gap-2">
+            <div
+              className="flex flex-col group-hover:flex-row justify-center gap-2"
+              onMouseEnter={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
               <ThemeToggle />
-              <LanguageToggle />
+              <LanguageToggle className="group-hover:block" />
             </div>
           </div>
 
@@ -121,13 +124,16 @@ export function Navigation() {
                   variant={isActive ? "primary" : "ghost"}
                   onClick={() => setCurrentView(item.id as any)}
                   className={cn(
-                    "w-full justify-start gap-3 h-12  items-center text-white",
-                    isActive ? "px-6" : "px-4"
+                    "w-full justify-start gap-3 h-12  items-center px-4 transition-all duration-200 group bg-orange-50 text-orange-500 dark:bg-gray-800 dark:text-orange-400 hover:bg-orange-100 dark:hover:bg-gray-700",
+                    isActive && "bg-orange-600 text-white shadow-lg shadow-orange-500/25"
                   )}
                 >
                   <Icon
                     size={16}
-                    className={`${isActive ? "text-white" : item.color}`}
+                    className={cn(
+                      "w-5 h-5",
+                      isActive ? "text-white" : item.color
+                    )}
                   />
                   <span
                     className={`transition-all duration-200 ${

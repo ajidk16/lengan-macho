@@ -83,7 +83,7 @@ export function WeeklyTips() {
               variant={selectedWeek === week ? "primary" : "outline"}
               size="sm"
               onClick={() => setSelectedWeek(week)}
-              className="min-w-[70px] font-medium"
+              className="min-w-[70px] font-medium bg-transparent hover:bg-transparent text-sm transition-colors duration-200"
             >
               Week {week}
             </BrandButton>
