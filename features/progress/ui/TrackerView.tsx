@@ -8,8 +8,8 @@ import { Badge } from "@/components/ui/badge"
 import { useFitnessStore } from "@/lib/store"
 import { useTranslation } from "@/lib/i18n"
 import { Scale, Ruler, Activity, Target } from "lucide-react"
-import { ProgressModal } from "./progress-modal"
-import { ProgressChart } from "./progress-chart"
+import { ProgressModal } from "@/components/views/progress-modal"
+import { ProgressChart } from "@/components/views/progress-chart"
 
 export function TrackerView() {
   const { progress, language, isDarkMode } = useFitnessStore()

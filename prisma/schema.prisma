@@ -1,0 +1,155 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  passwordHash  String   @map("password_hash")
+  name          String?
+  birthDate     DateTime? @db.Date @map("birth_date")
+  gender        Int?     @db.SmallInt
+  heightCm      Int?     @map("height_cm")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  bodyLogs       BodyLog[]
+  workoutTemplates WorkoutTemplate[]
+  workoutSessions WorkoutSession[]
+  nutritionTarget NutritionTarget?
+  mealLogs       MealLog[]
+  goals          Goal[]
+  userBadges     UserBadge[]
+}
+
+model BodyLog {
+  id          String   @id @default(cuid())
+  userId      String   @map("user_id")
+  date        DateTime @db.Date
+  weightKg    Decimal? @db.Decimal(4,1)
+  armCm       Decimal? @db.Decimal(4,1)
+  waistCm     Decimal? @db.Decimal(4,1)
+  bodyFatPct  Decimal? @db.Decimal(3,1)
+  photoUrl    String?  @map("photo_url")
+  note        String?
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([userId, date])
+}
+
+model WorkoutTemplate {
+  id          String   @id @default(cuid())
+  userId      String   @map("user_id")
+  name        String
+  description String?
+  targetDays  Int?     @map("target_days")
+  createdAt   DateTime @default(now()) @map("created_at")
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessions    WorkoutSession[]
+  exercises   WorkoutExercise[]
+}
+
+model Exercise {
+  id           String   @id @default(cuid())
+  name         String
+  category     String?
+  muscleGroup  String?  @map("muscle_group")
+  equipment    String?
+  videoUrl     String?  @map("video_url")
+  templateRefs WorkoutExercise[]
+  setLogs      SetLog[]
+}
+
+model WorkoutExercise {
+  workoutId   String
+  exerciseId  String
+  sets        Int?
+  reps        String?
+  weightKg    Decimal? @db.Decimal(5,2)
+  restSec     Int?     @map("rest_sec")
+  orderIndex  Int      @map("order_index")
+  workout     WorkoutTemplate @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  exercise    Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  @@id([workoutId, exerciseId, orderIndex])
+}
+
+model WorkoutSession {
+  id            String   @id @default(cuid())
+  userId        String   @map("user_id")
+  templateId    String?  @map("template_id")
+  startTime     DateTime @map("start_time")
+  endTime       DateTime? @map("end_time")
+  volumeKg      Int?     @map("volume_kg")
+  caloriesBurn  Int?     @map("calories_burn")
+  feeling       Int?     @db.SmallInt
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  template      WorkoutTemplate? @relation(fields: [templateId], references: [id])
+  setLogs       SetLog[]
+}
+
+model SetLog {
+  id          String   @id @default(cuid())
+  sessionId   String   @map("session_id")
+  exerciseId  String   @map("exercise_id")
+  setNo       Int      @map("set_no")
+  reps        Int?
+  weightKg    Decimal? @db.Decimal(5,2)
+  rir         Int?     @db.SmallInt
+  createdAt   DateTime @default(now()) @map("created_at")
+  session     WorkoutSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  exercise    Exercise @relation(fields: [exerciseId], references: [id])
+}
+
+model NutritionTarget {
+  userId   String @id @map("user_id")
+  kcal     Int?
+  proteinG Int?   @map("protein_g")
+  carbsG   Int?   @map("carbs_g")
+  fatG     Int?   @map("fat_g")
+  fiberG   Int?   @map("fiber_g")
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model MealLog {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  date      DateTime @db.Date
+  mealType  Int      @map("meal_type") @db.SmallInt
+  kcal      Int?
+  proteinG  Int?     @map("protein_g")
+  carbsG    Int?     @map("carbs_g")
+  fatG      Int?     @map("fat_g")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Goal {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  type      String
+  target    Decimal
+  unit      String
+  deadline  DateTime @db.Date
+  achieved  Boolean  @default(false)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Badge {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  iconUrl     String?  @map("icon_url")
+  userBadges  UserBadge[]
+}
+
+model UserBadge {
+  userId   String   @map("user_id")
+  badgeId  String   @map("badge_id")
+  earnedAt DateTime @default(now()) @map("earned_at")
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge    Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+  @@id([userId, badgeId])
+}

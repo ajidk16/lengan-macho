@@ -3,12 +3,14 @@
 import { useFitnessStore } from "@/lib/store"
 import { Navigation } from "@/components/layout/navigation"
 import { Dashboard } from "@/components/views/dashboard"
-import { TrackerView } from "@/components/views/tracker-view"
 import { MealView } from "@/components/views/meal-view"
 import { WorkoutView } from "@/components/views/workout-view"
 import { WeeklyTips } from "@/components/weekly-tips"
 import { CalorieCalculator } from "@/components/calorie-calculator"
 import { useEffect } from "react"
+import { TrackerView } from "@/features/progress/ui/TrackerView"
+import { QueryClientProvider } from "@tanstack/react-query"
+import { queryClient } from "@/lib/tanstack-query"
 
 export default function LenganMachoApp() {
   const { currentView, isDarkMode } = useFitnessStore()
@@ -52,7 +54,7 @@ export default function LenganMachoApp() {
       <Navigation />
 
       <main className="container mx-auto px-4 py-8 transition-all duration-300">
-        {renderCurrentView()}
+        <QueryClientProvider client={queryClient}>{renderCurrentView()}</QueryClientProvider>
       </main>
     </div>
   )
