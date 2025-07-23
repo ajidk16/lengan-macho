@@ -65,7 +65,8 @@ const en = {
   noNotesYet: "No notes for this week yet",
   startWriting: "Start writing your workout reflections and experiences",
   calculatorTitle: "Calorie Calculator",
-  calculatorSubtitle: "Calculate daily calorie needs based on your fitness goals",
+  calculatorSubtitle:
+    "Calculate daily calorie needs based on your fitness goals",
   personalData: "Personal Data",
   age: "Age (years)",
   height: "Height (cm)",
@@ -86,7 +87,8 @@ const en = {
   noteDescription:
     "These results are estimates based on scientific formulas. Adjust according to your body's response and consult with a nutritionist or professional trainer for optimal results.",
   readyToCalculate: "Ready to Calculate?",
-  fillPersonalData: "Fill in your personal data to calculate daily calorie needs",
+  fillPersonalData:
+    "Fill in your personal data to calculate daily calorie needs",
   sedentary: "Sedentary (no exercise)",
   light: "Light (exercise 1-3x/week)",
   moderate: "Moderate (exercise 3-5x/week)",
@@ -117,5 +119,58 @@ const en = {
   darkMode: "Dark Mode",
   lightMode: "Light Mode",
   language: "Language",
-}
+  header: {
+    title: "Dashboard",
+    subtitle: "Your fitness progress overview",
+  },
+  summaryCards: {
+    bodyWeight: {
+      title: "Body Weight",
+      unit: "kg",
+    },
+    armCircumference: {
+      title: "Arm Circumference",
+      unit: "cm",
+    },
+    dailyWorkout: {
+      title: "Today's Workout",
+      status: "{completed}/{total}",
+    },
+    dailyCalories: {
+      title: "Today's Calories",
+      unit: "calories",
+    },
+  },
+  progressChart: {
+    title: "Progress History Chart",
+    xAxisLabel: "Week {number}",
+    legend: {
+      bodyWeight: "Body Weight (kg)",
+      chest: "Chest (cm)",
+      arm: "Arm (cm)",
+      waist: "Waist (cm)",
+    },
+  },
+  dailyWorkoutCard: {
+    title: "Today's Workout",
+    workoutName: "Push Day - Chest & Triceps Foundation",
+    minutes: "minutes",
+    progressLabel: "Workout Progress",
+    from: "From",
+    exercise_completed: "Exercises Completed",
+  },
+  dailyNutritionCard: {
+    title: "Today's Nutrition",
+    meals: "meals",
+    calorieUnit: "cal",
+    calorieTargetLabel: "Daily Calorie Target",
+    targetInfo: "calories per day",
+  },
+  weeklySummaryCard: {
+    title: "Weekly Summary",
+    weeksTracked: "Weeks Tracked",
+    avgWorkout: "Average Workout Completion",
+    avgCalories: "Average Calories",
+  },
+};
 export default en;

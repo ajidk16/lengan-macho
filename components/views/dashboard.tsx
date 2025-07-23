@@ -35,24 +35,24 @@ export function Dashboard() {
 
   return (
     <div className="space-y-8">
-      <PageHeader title={t("dashboardTitle")} subtitle={t("dashboardSubtitle")} icon="📊" />
+      <PageHeader title={t("header.title")} subtitle={t("header.subtitle")} icon="📊" />
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {latestEntry && (
           <>
             <StatCard
-              title={t("weight")}
+              title={t("summaryCards.bodyWeight.title")}
               value={latestEntry.weight}
-              unit={t("kg")}
+              unit={t("summaryCards.bodyWeight.unit")}
               change={previousEntry ? getChange(latestEntry.weight, previousEntry.weight) : undefined}
               icon={<Scale className="w-6 h-6 text-orange-500" />}
               color="orange"
             />
             <StatCard
-              title={t("armCircumference")}
+              title={t("summaryCards.armCircumference.title")}
               value={latestEntry.armSize}
-              unit={t("cm")}
+              unit={t("summaryCards.armCircumference.unit")}
               change={previousEntry ? getChange(latestEntry.armSize, previousEntry.armSize) : undefined}
               icon={<Ruler className="w-6 h-6 text-green-500" />}
               color="green"
@@ -61,16 +61,16 @@ export function Dashboard() {
         )}
 
         <StatCard
-          title={t("todayWorkout")}
+          title={t("summaryCards.dailyWorkout.title")}
           value={`${completedExercises}/${totalExercises}`}
           icon={<Activity className="w-6 h-6 text-blue-500" />}
           color="blue"
         />
 
         <StatCard
-          title={t("todayCalories")}
+          title={t("summaryCards.dailyCalories.title")}
           value={totalCalories}
-          unit={t("calories")}
+          unit={t("summaryCards.dailyCalories.unit")}
           icon={<Target className="w-6 h-6 text-purple-500" />}
           color="purple"
         />
@@ -82,7 +82,7 @@ export function Dashboard() {
       {/* Quick Overview Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Workout Progress */}
-        <BrandCard title={`🏋️ ${t("todayWorkout")}`} variant="gradient">
+        <BrandCard title={`🏋️ ${t("dailyWorkoutCard.title")}`} variant="gradient">
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <span className={`font-medium ${textColor}`}>{todayWorkout?.title}</span>
@@ -95,61 +95,61 @@ export function Dashboard() {
               </span>
             </div>
 
-            <ProgressBar value={completedExercises} max={totalExercises} label={t("workoutProgress")} color="orange" />
+            <ProgressBar value={completedExercises} max={totalExercises} label={t("dailyWorkoutCard.progressLabel")} color="orange" />
 
             <div className={`text-sm ${subtextColor}`}>
-              {completedExercises} dari {totalExercises} latihan {t("completed")}
+              {completedExercises} {t("dailyWorkoutCard.from")} {totalExercises} {t("dailyWorkoutCard.exercise_completed")}
             </div>
           </div>
         </BrandCard>
 
         {/* Nutrition Overview */}
-        <BrandCard title={`🍽️ ${t("nutritionToday")}`} variant="gradient">
+        <BrandCard title={`🍽️ ${t("dailyNutritionCard.title")}`} variant="gradient">
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <span className={`font-medium ${textColor}`}>
-                {todayMeals.length} {t("mealTimes")}
+                {todayMeals.length} {t("dailyNutritionCard.meals")}
               </span>
               <span
                 className={`text-sm px-2 py-1 rounded-full ${
                   isDarkMode ? "text-yellow-400 bg-yellow-900/20" : "text-yellow-600 bg-yellow-100"
                 }`}
               >
-                {totalCalories} kal
+                {totalCalories} {t("dailyNutritionCard.calorieUnit")}
               </span>
             </div>
 
-            <ProgressBar value={totalCalories} max={2500} label={t("dailyCalorieTarget")} color="orange" />
+            <ProgressBar value={totalCalories} max={2500} label={t("dailyNutritionCard.calorieTargetLabel")} color="orange" />
 
             <div className={`text-sm ${subtextColor}`}>
-              {t("target")}: 2500 {t("caloriesPerDay")}
+              {t("target")}: 2500 {t("dailyNutritionCard.targetInfo")}
             </div>
           </div>
         </BrandCard>
       </div>
 
       {/* Weekly Summary */}
-      <BrandCard title={`📈 ${t("weeklySummary")}`} variant="bordered">
+      <BrandCard title={`📈 ${t("weeklySummaryCard.title")}`} variant="bordered">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center">
             <div className={`text-2xl font-bold ${isDarkMode ? "text-orange-400" : "text-orange-600"}`}>
               {progress.length}
             </div>
-            <div className={`text-sm ${subtextColor}`}>{t("weeklyTracking")}</div>
+            <div className={`text-sm ${subtextColor}`}>{t("weeklySummaryCard.weeksTracked")}</div>
           </div>
 
           <div className="text-center">
             <div className={`text-2xl font-bold ${isDarkMode ? "text-green-400" : "text-green-600"}`}>
               {Math.round((completedExercises / Math.max(totalExercises, 1)) * 100)}%
             </div>
-            <div className={`text-sm ${subtextColor}`}>{t("averageWorkout")}</div>
+            <div className={`text-sm ${subtextColor}`}>{t("weeklySummaryCard.avgWorkout")}</div>
           </div>
 
           <div className="text-center">
             <div className={`text-2xl font-bold ${isDarkMode ? "text-yellow-400" : "text-yellow-600"}`}>
               {Math.round(totalCalories / 100) * 100}
             </div>
-            <div className={`text-sm ${subtextColor}`}>{t("averageCalories")}</div>
+            <div className={`text-sm ${subtextColor}`}>{t("weeklySummaryCard.avgCalories")}</div>
           </div>
         </div>
       </BrandCard>

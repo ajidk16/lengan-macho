@@ -10,7 +10,7 @@ export function ProgressChart() {
   const { t } = useTranslation(language)
 
   const chartData = progress.map((entry) => ({
-    week: `Week ${entry.week}`,
+    week: `${t("progressChart.xAxisLabel")} ${entry.week}`,
     weight: entry.weight,
     armSize: entry.armSize,
     chestSize: entry.chestSize || 0,
@@ -23,7 +23,7 @@ export function ProgressChart() {
   const tooltipBorder = isDarkMode ? "#374151" : "#fed7aa"
 
   return (
-    <BrandCard title={`📊 ${t("progressHistory")} Chart`} variant="gradient" className="col-span-full">
+    <BrandCard title={`📊 ${t("progressChart.title")}`} variant="gradient" className="col-span-full">
       <div className="h-80">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
@@ -45,7 +45,7 @@ export function ProgressChart() {
               stroke="#f97316"
               strokeWidth={3}
               dot={{ fill: "#f97316", strokeWidth: 2, r: 4 }}
-              name={`${t("weight")} (${t("kg")})`}
+              name={`${t("progressChart.legend.bodyWeight")})`}
             />
             <Line
               type="monotone"
@@ -53,7 +53,7 @@ export function ProgressChart() {
               stroke="#eab308"
               strokeWidth={3}
               dot={{ fill: "#eab308", strokeWidth: 2, r: 4 }}
-              name={`${t("arm")} (${t("cm")})`}
+              name={`${t("progressChart.legend.arm")}`}
             />
             <Line
               type="monotone"
@@ -61,7 +61,7 @@ export function ProgressChart() {
               stroke="#f59e0b"
               strokeWidth={3}
               dot={{ fill: "#f59e0b", strokeWidth: 2, r: 4 }}
-              name={`${t("chest")} (${t("cm")})`}
+              name={`${t("progressChart.legend.chest")}`}
             />
             <Line
               type="monotone"
@@ -69,7 +69,7 @@ export function ProgressChart() {
               stroke="#d97706"
               strokeWidth={3}
               dot={{ fill: "#d97706", strokeWidth: 2, r: 4 }}
-              name={`${t("waist")} (${t("cm")})`}
+              name={`${t("progressChart.legend.waist")}`}
             />
           </LineChart>
         </ResponsiveContainer>

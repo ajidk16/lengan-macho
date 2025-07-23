@@ -22,7 +22,7 @@ export function LanguageToggle({ className }: { className?: string }) {
         <Button
           variant="ghost"
           size="sm"
-          className={`p-2 rounded-full transition-colors ${
+          className={`p-2 transition-colors ${
             isDarkMode
               ? "text-orange-400 hover:bg-orange-900/20 hover:text-orange-300"
               : "text-orange-600 hover:bg-orange-100 hover:text-orange-700"

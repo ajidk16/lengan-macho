@@ -14,7 +14,7 @@ export function ThemeToggle() {
       variant="ghost"
       size="sm"
       onClick={toggleDarkMode}
-      className={`p-2 rounded-full transition-colors ${
+      className={`p-2 transition-colors ${
         isDarkMode
           ? "text-orange-400 hover:bg-orange-900/20 hover:text-orange-300"
           : "text-orange-600 hover:bg-orange-100 hover:text-orange-700"

@@ -65,7 +65,8 @@ const id = {
   noNotesYet: "Belum ada catatan untuk minggu ini",
   startWriting: "Mulai tulis refleksi dan pengalaman latihan Anda",
   calculatorTitle: "Kalkulator Kalori",
-  calculatorSubtitle: "Hitung kebutuhan kalori harian berdasarkan tujuan fitness",
+  calculatorSubtitle:
+    "Hitung kebutuhan kalori harian berdasarkan tujuan fitness",
   personalData: "Data Pribadi",
   age: "Usia (tahun)",
   height: "Tinggi Badan (cm)",
@@ -86,7 +87,8 @@ const id = {
   noteDescription:
     "Hasil ini adalah estimasi berdasarkan rumus ilmiah. Sesuaikan dengan respons tubuh Anda dan konsultasikan dengan ahli gizi atau pelatih profesional untuk hasil optimal.",
   readyToCalculate: "Siap Menghitung?",
-  fillPersonalData: "Isi data pribadi Anda untuk menghitung kebutuhan kalori harian",
+  fillPersonalData:
+    "Isi data pribadi Anda untuk menghitung kebutuhan kalori harian",
   sedentary: "Sedentary (tidak olahraga)",
   light: "Light (olahraga 1-3x/minggu)",
   moderate: "Moderate (olahraga 3-5x/minggu)",
@@ -117,5 +119,58 @@ const id = {
   darkMode: "Mode Gelap",
   lightMode: "Mode Terang",
   language: "Bahasa",
-}
+  header: {
+    title: "Dasbor",
+    subtitle: "Ringkasan Progres Fitness Anda",
+  },
+  summaryCards: {
+    bodyWeight: {
+      title: "Berat Badan",
+      unit: "kg",
+    },
+    armCircumference: {
+      title: "Lingkar Lengan",
+      unit: "cm",
+    },
+    dailyWorkout: {
+      title: "Latihan Hari Ini",
+      status: "{completed}/{total}",
+    },
+    dailyCalories: {
+      title: "Kalori Hari Ini",
+      unit: "kalori",
+    },
+  },
+  progressChart: {
+    title: "Grafik Riwayat Progres",
+    xAxisLabel: "Minggu",
+    legend: {
+      bodyWeight: "Berat Badan (kg)",
+      chest: "Dada (cm)",
+      arm: "Lengan (cm)",
+      waist: "Pinggang (cm)",
+    },
+  },
+  dailyWorkoutCard: {
+    title: "Latihan Hari Ini",
+    workoutName: "Push Day - Fondasi Dada & Trisep",
+    minutes: "menit",
+    progressLabel: "Progres Latihan",
+    from: "Dari",
+    exercise_completed: "Latihan Selesai",
+  },
+  dailyNutritionCard: {
+    title: "Nutrisi Hari Ini",
+    meals: "kali makan",
+    calorieUnit: "kal",
+    calorieTargetLabel: "Target Kalori Harian",
+    targetInfo: "kalori per hari",
+  },
+  weeklySummaryCard: {
+    title: "Ringkasan Mingguan",
+    weeksTracked: "Minggu Pelacakan",
+    avgWorkout: "Rata-rata Latihan",
+    avgCalories: "Rata-rata Kalori",
+  },
+};
 export default id;

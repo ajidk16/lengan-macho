@@ -132,11 +132,17 @@ export function Navigation() {
   return (
     <>
       {/* Tablet */}
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
       <BrandCard
         variant="gradient"
         className={cn(
           "hidden md:block fixed left-2 top-1/2 -translate-y-1/2 z-50 w-20 transition-all duration-300 shadow-xl shadow-orange-500/20 group",
-          isMobileMenuOpen && "w-64"
+          isMobileMenuOpen ? "w-64 translate-x-0" : "w-20 translate-x-0"
         )}
       >
         <div className="space-y-3">
@@ -240,12 +246,6 @@ export function Navigation() {
             <Menu className="w-5 h-5" />
           )}
         </BrandButton>
-        {isMobileMenuOpen && (
-          <div
-            className="fixed inset-0 bg-black/50 z-40"
-            onClick={() => setIsMobileMenuOpen(false)}
-          />
-        )}
         <BrandCard
           variant="gradient"
           className={`fixed left-4 top-20 z-50 w-64 shadow-xl shadow-orange-500/20 transition-transform duration-300 ${
