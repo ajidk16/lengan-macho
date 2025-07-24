@@ -8,6 +8,7 @@ const Page = () => {
       <h1 className="text-2xl font-bold mb-4">Welcome to Lengan Macho</h1>
       {/* Add more components or content as needed */}
       <CalorieCalculator />
+      <div>ini adalah konten tambahan</div>
     </div>
   );
 };
