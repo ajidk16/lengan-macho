@@ -7,11 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  USER
+  ADMIN
+}
+
 model User {
   id            String   @id @default(cuid())
   email         String   @unique
   passwordHash  String   @map("password_hash")
   name          String?
+  role          Role     @default(USER)
   birthDate     DateTime? @db.Date @map("birth_date")
   gender        Int?     @db.SmallInt
   heightCm      Int?     @map("height_cm")
