@@ -8,7 +8,7 @@ import {
   ADMIN_ROUTES,
 } from "@/constants/auth";
 
-export function withAuth(req: NextRequest) {
+export async function withAuth(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // Izinkan API auth & file statik
@@ -29,11 +29,9 @@ export function withAuth(req: NextRequest) {
     adminRoutes: ADMIN_ROUTES,
   });
 
-  return
-
   // Jika punya token & akses halaman publik → redirect ke dashboard
-  if (token && verifyToken(token) && isPublic) {
-    const payload = verifyToken(token);
+  if (token && (await verifyToken(token)) && isPublic) {
+    const payload = await verifyToken(token);
     console.log("User authenticated, redirecting from public page:", payload);
     if (payload?.role === "ADMIN") {
       console.log("Redirecting admin to /admin");
@@ -44,7 +42,7 @@ export function withAuth(req: NextRequest) {
   }
 
   // Jika tidak punya token & akses halaman privat → redirect login
-  if (!token || !verifyToken(token)) {
+  if (!token || !(await verifyToken(token))) {
     if (!isPublic) {
       console.log("No valid token, redirecting to login");
       return NextResponse.redirect(new URL("/login", req.url));
@@ -55,7 +53,7 @@ export function withAuth(req: NextRequest) {
 
   // Cek akses admin
   if (isAdminRoute) {
-    const payload = verifyToken(token);
+    const payload = await verifyToken(token);
     console.log("Checking admin access:", payload);
     if (payload?.role !== "ADMIN") {
       console.log("Non-admin accessing admin route, redirecting to dashboard");

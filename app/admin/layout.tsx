@@ -25,7 +25,7 @@ export default async function AdminLayout({
     exp: number;
   };
 
-  const payload = verifyToken(token) as JwtPayload;
+  const payload = (await verifyToken(token)) as JwtPayload;
   console.log("AdminLayout payload:", payload);
   if (!payload || payload.role !== "ADMIN") {
     redirect("/dashboard");

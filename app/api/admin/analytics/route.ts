@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
   }
 
-  const payload = verifyToken(token);
+  const payload = await verifyToken(token);
   if (!payload || payload.role !== 'ADMIN') {
     return NextResponse.json({ error: 'Access denied' }, { status: 403 });
   }

@@ -8,7 +8,7 @@ export default async function DashboardPage() {
   
   let user = null;
   if (authToken) {
-    const payload = verifyToken(authToken.value);
+    const payload = await verifyToken(authToken.value);
     if (payload) {
       user = {
         id: payload.userId,

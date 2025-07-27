@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
     };
     
     console.log('Creating token with payload:', tokenPayload);
-    const token = signToken(tokenPayload);
+    const token = await signToken(tokenPayload);
     console.log('Token created successfully');
 
     const response = NextResponse.json({ 
