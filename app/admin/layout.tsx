@@ -18,7 +18,7 @@ export default async function AdminLayout({
 
   type JwtPayload = {
     userId: string;
-    role: "ADMIN";
+    role: "ADMIN" | "USER"; // Adjusted to include USER for clarity
     email: string;
     name: string;
     iat: number;

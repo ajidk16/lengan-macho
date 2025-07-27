@@ -44,18 +44,21 @@ export default function LenganMachoApp() {
   }
 
   return (
-    <div
-      className={`min-h-screen transition-colors duration-300 ${
-        isDarkMode
-          ? "bg-gradient-to-br from-gray-900 via-gray-800 to-orange-900/20"
-          : "bg-gradient-to-br from-orange-50 via-white to-yellow-50"
-      }`}
-    >
-      <Navigation />
+    <>
+      {/* <script src="https://www.noupe.com/embed/019846edbd8a7ab0804c7a8acaf715fe9dd5.js"></script> */}
+      <div
+        className={`min-h-screen transition-colors duration-300 ${
+          isDarkMode
+            ? "bg-gradient-to-br from-gray-900 via-gray-800 to-orange-900/20"
+            : "bg-gradient-to-br from-orange-50 via-white to-yellow-50"
+        }`}
+      >
+        <Navigation />
 
-      <main className="container mx-auto px-4 py-8 transition-all duration-300">
-        <QueryClientProvider client={queryClient}>{renderCurrentView()}</QueryClientProvider>
-      </main>
-    </div>
+        <main className="container mx-auto px-4 py-8 transition-all duration-300">
+          <QueryClientProvider client={queryClient}>{renderCurrentView()}</QueryClientProvider>
+        </main>
+      </div>
+    </>
   )
 }
