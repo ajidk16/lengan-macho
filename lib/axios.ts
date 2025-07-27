@@ -1,13 +1,13 @@
-import axios from 'axios';
+import axios from "axios";
 
-const isServer = typeof window === 'undefined';
+const isServer = typeof window === "undefined";
 
 export const api = axios.create({
-  baseURL: isServer ? process.env.NEXT_PUBLIC_API_URL || process.env.API_URL || 'http://localhost:3000/api' : '/api',
+  baseURL: `${window.location.origin}/api`,
   timeout: 10000,
   headers: {
-    'Content-Type': 'application/json',
-    Accept: 'application/json',
+    "Content-Type": "application/json",
+    Accept: "application/json",
   },
   withCredentials: true,
 });
@@ -16,7 +16,7 @@ export const api = axios.create({
 api.interceptors.request.use((config) => {
   // Example: attach token from localStorage if exists (client only)
   if (!isServer) {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
